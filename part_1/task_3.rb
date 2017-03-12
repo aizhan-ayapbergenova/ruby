@@ -3,13 +3,13 @@
 sides = []
 
 puts "1-я сторона треугольника?"
-sides << a = gets.chomp.to_f
+sides << gets.chomp.to_f
 
 puts "2-я сторона треугольника?"
-sides << b = gets.chomp.to_f
+sides << gets.chomp.to_f
 
 puts "3-я сторона треугольника?"
-sides << c = gets.chomp.to_f
+sides << gets.chomp.to_f
 
 sides.sort!
 
