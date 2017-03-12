@@ -1,15 +1,11 @@
 # Заполнить массив числами фибоначчи до 100
 
-array = []
+array = [0, 1]
+index = 2
 
-array << count = 0
-array << index = 1
-
-loop do
-  index += 1
-  count = array[index - 1] + array[index - 2]
-  break if count > 100
+while (count = array[index-1] + array[index-2]) < 100
   array << count
+  index += 1
 end
 
 p array

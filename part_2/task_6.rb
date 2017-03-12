@@ -9,9 +9,9 @@ loop do
 
   puts "Для выхода введите слово 'стоп' (без кавычек)."
   puts "Название товара?"
-  item_name = gets.chomp.downcase
+  item_name = gets.chomp.downcase.to_sym
 
-  break if item_name == "стоп"
+  break if item_name == "стоп".to_sym
 
   puts "Цена товара?"
   item_price = gets.chomp.to_f
@@ -19,12 +19,12 @@ loop do
   puts "Количество товара?"
   item_quantity = gets.chomp.to_f
 
-  item_info["price"]    = item_price
-  item_info["quantity"] = item_quantity
-  cart[item_name]       = item_info
+  item_info[:price]    = item_price
+  item_info[:quantity] = item_quantity
+  cart[item_name]      = item_info
 
   cart.each do |name, info| # Помещаем каждый товар и его итоговую цену в раннее созданный хэш
-    item_amount[name] = info["price"] * info["quantity"]
+    item_amount[name] = info[:price] * info[:quantity]
   end
 
 end
