@@ -23,15 +23,16 @@ loop do
   item_info[:quantity] = item_quantity
   cart[item_name]      = item_info
 
-  cart.each do |name, info| # Помещаем каждый товар и его итоговую цену в раннее созданный хэш
-    item_amount[name] = info[:price] * info[:quantity]
-  end
-
 end
 
-sum = item_amount.values.reduce(:+) # Извлекаем итоговые цены каждого товара и суммируем их
+total = 0
+
+cart.each do |name, info|
+    item_amount[name] = info[:price] * info[:quantity]
+    total = item_amount.values.reduce(:+) 
+end
 
 puts "Получившийся хэш товаров: #{cart}"
 puts "Товар и его итоговая цена: "
 item_amount.each { |item, price| puts "#{item}: #{price}"}
-puts "Итоговая сумма всех товаров в корзине: #{sum}"
+puts "Итоговая сумма всех товаров в корзине: #{total}"

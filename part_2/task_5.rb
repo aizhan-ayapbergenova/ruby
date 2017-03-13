@@ -16,6 +16,6 @@ if year % 4 == 0 || year % 400 == 0
   puts "Високосный год"
 end
 
-result = months[0..(month-1)].inject(:+) - (day - months[month-1]) * -1
+result = months[0..(month-1)].inject(:+) - months[month-1] - day
 
 puts "Порядковый номер введенной даты от начала года: #{result}"
