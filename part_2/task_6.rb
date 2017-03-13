@@ -4,7 +4,6 @@ cart = {} # Хэш для корзины товаров с ценой и кол�
 item_amount = {} # Хэш для товара и его итоговой цены
 
 loop do
-
   puts "Для выхода введите слово 'стоп' (без кавычек)."
   puts "Название товара?"
   item_name = gets.chomp.downcase.to_sym
@@ -18,7 +17,6 @@ loop do
   item_quantity = gets.chomp.to_f
 
   cart[item_name] = { :price => item_price, :quantity => item_quantity }
-
 end
 
 total = 0
