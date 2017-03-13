@@ -5,8 +5,6 @@ item_amount = {} # Хэш для товара и его итоговой цен�
 
 loop do
 
-  item_info = {} # Вложенный хэш для цены и количества товара
-
   puts "Для выхода введите слово 'стоп' (без кавычек)."
   puts "Название товара?"
   item_name = gets.chomp.downcase.to_sym
@@ -19,9 +17,7 @@ loop do
   puts "Количество товара?"
   item_quantity = gets.chomp.to_f
 
-  item_info[:price]    = item_price
-  item_info[:quantity] = item_quantity
-  cart[item_name]      = item_info
+  cart[item_name] = { :price => item_price, :quantity => item_quantity }
 
 end
 
