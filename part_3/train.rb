@@ -35,7 +35,7 @@ class Train
     end
   end
 
-  def take_the_route(route)
+  def route=(route)
     @route = route.stations
   end
 
