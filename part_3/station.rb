@@ -10,11 +10,7 @@ class Station
   def take_the_train(train)
     @trains << train
   end
-
-  def show_all_trains
-    @trains
-  end
-
+  
   def show_passenger_trains
     passenger_trains = [] << @trains.select { |train| train.type == "passenger" }
   end
