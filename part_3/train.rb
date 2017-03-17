@@ -57,16 +57,37 @@ class Train
     end
   end
 
-  def show_station
-    @current_station = @route[@station_index]
-    @next_station = @route[@station_index + 1]
-    @previous_station = @route[@station_index - 1]
-    if @station_index == 0
-      puts "The train is on the first - #{@current_station} station, next station is - #{@next_station}"
-    elsif @station_index == @route.size - 1
-      puts "The train is on the last - #{@current_station} station, previous station is - #{@previous_station}"
+  def show_previous_station
+    if @station_index > 0
+      previous_station = @route.stations[@station_index - 1]
     else
-      puts "The train is on the #{@current_station} station, next station is - #{@next_station}, previous station is - #{@previous_station}"
+      puts "Error"
     end
   end
+
+  def show_current_station
+    @current_station = @route.stations[@station_index]
+  end
+
+  def show_next_station
+    if @station_index < @route.stations.size - 1
+      next_station = @route.stations[@station_index + 1]
+    else
+      puts "Error"
+    end
+  end
+
+  # def show_station
+  #   @current_station = @route[@station_index]
+  #   @next_station = @route[@station_index + 1]
+  #   @previous_station = @route[@station_index - 1]
+  #   if @station_index == 0
+  #     puts "The train is on the first - #{@current_station} station, next station is - #{@next_station}"
+  #   elsif @station_index == @route.size - 1
+  #     puts "The train is on the last - #{@current_station} station, previous station is - #{@previous_station}"
+  #   else
+  #     puts "The train is on the #{@current_station} station, next station is - #{@next_station}, previous station is - #{@previous_station}"
+  #   end
+  # end
+
 end
