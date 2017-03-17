@@ -8,18 +8,14 @@ class Train
     @type   = type
     @carriage_quantity = carriage_quantity
     @speed = 0
-    @station = 0
+    @station_index = 0
   end
 
   def increase_speed(speed)
-    @speed = speed
+    @speed += speed
   end
 
-  def current_speed
-    @speed
-  end
-
-  def decrease_speed
+  def reset_speed
     @speed = 0
   end
 
@@ -42,27 +38,27 @@ class Train
   end
 
   def move_to(direction)
-    @current_station = @route[@station]
-    if direction == "next".downcase && @station < @route.size - 1
-      @current_station = @route[@station + 1]
+    @current_station = @route[@station_index]
+    if direction == "next".downcase && @station_index < @route.size - 1
+      @current_station = @route[@station_index + 1]
       puts @current_station
-      @station += 1
-    elsif direction == "previous".downcase && @station > 0
-      @current_station = @route[@station - 1]
+      @station_index += 1
+    elsif direction == "previous".downcase && @station_index > 0
+      @current_station = @route[@station_index - 1]
       puts @current_station
-      @station -= 1
+      @station_index -= 1
     else
       puts "Error"
     end
   end
 
   def show_station
-    @current_station = @route[@station]
-    @next_station = @route[@station + 1]
-    @previous_station = @route[@station - 1]
-    if @station == 0
+    @current_station = @route[@station_index]
+    @next_station = @route[@station_index + 1]
+    @previous_station = @route[@station_index - 1]
+    if @station_index == 0
       puts "The train is on the first - #{@current_station} station, next station is - #{@next_station}"
-    elsif @station == @route.size - 1
+    elsif @station_index == @route.size - 1
       puts "The train is on the last - #{@current_station} station, previous station is - #{@previous_station}"
     else
       puts "The train is on the #{@current_station} station, next station is - #{@next_station}, previous station is - #{@previous_station}"
