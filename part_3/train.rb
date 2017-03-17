@@ -3,10 +3,10 @@ class Train
   attr_reader   :type, :number
   attr_accessor :speed
 
-  def initialize(number, type, vagon_quantity)
+  def initialize(number, type, carriage_quantity)
     @number = number
     @type   = type
-    @vagon_quantity = vagon_quantity
+    @carriage_quantity = carriage_quantity
     @speed = 0
     @station = 0
   end
@@ -23,15 +23,15 @@ class Train
     @speed = 0
   end
 
-  def show_vagon_quantity
-    @vagon_quantity
+  def show_carriage_quantity
+    @carriage_quantity
   end
 
   def attach_unhook_vagon(attach_unhook)
     if self.current_speed == 0 && attach_unhook == "attach".downcase
-      @vagon_quantity += 1
+      @carriage_quantity += 1
     elsif self.current_speed == 0 && attach_unhook == "unhook".downcase
-      @vagon_quantity -= 1
+      @carriage_quantity -= 1
     else
       puts "Error"
     end
