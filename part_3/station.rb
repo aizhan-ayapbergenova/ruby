@@ -10,13 +10,9 @@ class Station
   def take_the_train(train)
     @trains << train
   end
-  
-  def passenger_trains
-    @trains.select { |train| train.type == "passenger" }
-  end
 
-  def freight_trains
-    @trains.select { |train| train.type == "freight" }
+  def trains(type)
+    @trains.select { |train| train.type == type }
   end
 
   def send_train(number_of_train)
