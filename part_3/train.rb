@@ -55,19 +55,19 @@ class Train
 
   def previous_station
     if @station_index > 0
-      previous_station = @route.stations[@station_index - 1]
+      @route.stations[@station_index - 1]
     else
       puts "Error"
     end
   end
 
   def current_station
-    @current_station = @route.stations[@station_index]
+    @route.stations[@station_index]
   end
 
   def next_station
     if @station_index < @route.stations.size - 1
-      next_station = @route.stations[@station_index + 1]
+      @route.stations[@station_index + 1]
     else
       puts "Error"
     end
