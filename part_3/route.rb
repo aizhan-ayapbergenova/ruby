@@ -17,8 +17,4 @@ class Route
       puts "Error"
     end
   end
-
-  def show_all_stations
-    @stations.each { |station| print station, ", " }
-  end
 end
