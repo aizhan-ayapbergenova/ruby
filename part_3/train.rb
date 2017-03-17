@@ -36,18 +36,21 @@ class Train
   end
 
   def route=(route)
-    @route = route.stations
+    @route = route
   end
 
-  def move_to(direction)
-    @current_station = @route[@station_index]
-    if direction == "next".downcase && @station_index < @route.size - 1
-      @current_station = @route[@station_index + 1]
-      puts @current_station
+  def to_next_station
+    if @station_index < @route.stations.size - 1
+      @current_station = @route.stations[@station_index + 1]
       @station_index += 1
-    elsif direction == "previous".downcase && @station_index > 0
-      @current_station = @route[@station_index - 1]
-      puts @current_station
+    else
+      puts "Error"
+    end
+  end
+
+  def to_previous_station
+    if @station_index > 0
+      @current_station = @route.stations[@station_index - 1]
       @station_index -= 1
     else
       puts "Error"
