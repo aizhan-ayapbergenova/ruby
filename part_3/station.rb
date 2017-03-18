@@ -7,15 +7,15 @@ class Station
     @trains = []
   end
 
-  def take_the_train(train)
-    @trains << train
-  end
-
-  def trains(type)
-    @trains.select { |train| train.type == type }
+  def take_train(train)
+    @trains.push(train)
   end
 
   def send_train(train)
     @trains.delete(train)
+  end
+
+  def trains(type)
+    @trains.select { |train| train.type == type }
   end
 end
