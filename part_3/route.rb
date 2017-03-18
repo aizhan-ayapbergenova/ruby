@@ -13,8 +13,6 @@ class Route
   def remove_station(station)
     if station != @stations.first && station != @stations.last
       @stations.delete(station)
-    else
-      puts "Error"
     end
   end
 end
