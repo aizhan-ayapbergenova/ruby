@@ -1,7 +1,7 @@
 class Train
 
-  attr_reader   :speed, :type, :number, :carriage_quantity
-  attr_accessor :route
+  attr_reader :speed, :type, :number, :carriage_quantity
+  attr_writer :route
 
   def initialize(number, type, carriage_quantity)
     @number = number
@@ -9,6 +9,7 @@ class Train
     @carriage_quantity = carriage_quantity
     @speed = 0
     @station_index = 0
+    @route = nil
   end
 
   def increase_speed
@@ -35,18 +36,16 @@ class Train
     end
   end
 
-  def to_next_station
+  def forward
     if @station_index < @route.stations.size - 1
-      @current_station = @route.stations[@station_index + 1]
       @station_index += 1
     else
       puts "Error"
     end
   end
 
-  def to_previous_station
+  def backward
     if @station_index > 0
-      @current_station = @route.stations[@station_index - 1]
       @station_index -= 1
     else
       puts "Error"
