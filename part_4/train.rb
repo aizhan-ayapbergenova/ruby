@@ -1,12 +1,11 @@
 class Train
 
-  attr_reader :speed, :type, :railcar_quantity, :railcar_list
+  attr_reader :speed, :railcar_list, :type
 
-  def initialize(number, type, railcar_quantity)
+  def initialize(number)
     @number = number
-    @type   = type
-    @railcar_quantity = railcar_quantity
     @railcar_list = []
+    self.type
     self.speed = 0
   end
 
@@ -28,7 +27,7 @@ class Train
   end
 
   def unhook_railcar
-    # @railcar_quantity -= 1 if stop? && @railcar_quantity > 0
+    @railcar_list.pop
   end
 
   def forward
@@ -71,16 +70,24 @@ end
 
 class PassengerTrain < Train
 
+  def type
+    @type = "passenger"
+  end
+
   def attach_railcar(railcar)
-    super if railcar.type == "passenger"
+    super if railcar.type == type
   end
 
 end
 
 class CargoTrain < Train
 
+  def type
+    @type = "cargo"
+  end
+
   def attach_railcar(railcar)
-    super if railcar.type == "cargo"
+    super if railcar.type == type
   end
 
 end
