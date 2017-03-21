@@ -23,7 +23,7 @@ class Train
   end
 
   def attach_railcar(railcar)
-    @railcar_list << railcar
+    @railcar_list << railcar if railcar.type == type && stop?
   end
 
   def unhook_railcar
@@ -58,7 +58,7 @@ class Train
     @route.stations[@station_index + 1]
   end
 
-  def stop?
+  def stop? # Метод не делаем приватным/защищенным чтобы можно было узнать остановлен ли поезд
     self.speed.zero?
   end
 
@@ -69,25 +69,13 @@ class Train
 end
 
 class PassengerTrain < Train
-
   def type
     @type = "passenger"
   end
-
-  def attach_railcar(railcar)
-    super if railcar.type == type
-  end
-
 end
 
 class CargoTrain < Train
-
   def type
     @type = "cargo"
   end
-
-  def attach_railcar(railcar)
-    super if railcar.type == type
-  end
-
 end
