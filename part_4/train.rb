@@ -27,7 +27,7 @@ class Train
   end
 
   def unhook_railcar
-    @railcar_list.pop
+    @railcar_list.pop if stop?
   end
 
   def forward
