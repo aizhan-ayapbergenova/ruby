@@ -62,9 +62,9 @@ class Train
     self.speed.zero?
   end
 
-  protected
+  protected # Потому что сеттер speed также необходим в подклассах
 
-  attr_writer :speed
+  attr_writer :speed # Для запрета прямого управления скоростью из клиентского кода
 
 end
 
