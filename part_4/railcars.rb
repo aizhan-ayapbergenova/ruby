@@ -3,14 +3,14 @@ class Railcar
   attr_reader :type
 
   def initialize
-    @type = nil
+    self.type
   end
 
 end
 
 class PassengerRailcar < Railcar
 
-  def initialize
+  def type
     @type = "passenger"
   end
 
@@ -18,7 +18,7 @@ end
 
 class CargoRailcar < Railcar
 
-  def initialize
+  def type
     @type = "cargo"
   end
 
