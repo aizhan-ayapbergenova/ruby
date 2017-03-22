@@ -6,7 +6,8 @@ require_relative 'railcars'
 
 class Application
 
-  attr_reader :station, :route, :train, :stations
+  attr_reader   :stations
+  attr_accessor :station, :route, :train
 
   def initialize
     @station
@@ -33,28 +34,32 @@ class Application
   end
 
   def create_route
-    h = {}
-    @stations.each.with_index(1) do |station, index|
-      h[index] = station
-    end
-
-    puts "Список доступных станций:"
-    h.each { |index, station| puts "#{index}. #{station.name}" }
-
+    station_list
     puts "Введите номер начальной станции"
-    first_station = h[gets.to_i]
+    first_station = @station_list[gets.to_i]
     puts "Введите номер конечной станции"
-    last_station  = h[gets.to_i]
-    
+    last_station  = @station_list[gets.to_i]
+
     @route = Route.new(first_station, last_station)
   end
 
-  def add_station
-
+  def add_station_route
+    unless @route.nil?
+      station_list
+      puts "Номер станции?"
+      number = gets.to_i
+      @route.add_station(@station_list[number])
+    else
+      "Сначала нужно создать маршрут"
+    end
   end
 
-  private
+  def station_list
+    @station_list = {}
+    @stations.each.with_index(1) { |station, index| @station_list[index] = station }
 
-  attr_writer :station, :route, :train
+    puts "Список доступных станций:"
+    @station_list.each { |index, station| puts "#{index}. #{station.name}" }
+  end
 
 end
