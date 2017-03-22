@@ -39,6 +39,10 @@ class Init < Application
         attach_railcar
       when 8
         unhook_railcar
+      when 9
+        train_forward
+      when 10
+        train_backward
       end
     end
   end

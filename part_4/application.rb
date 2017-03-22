@@ -44,27 +44,21 @@ class Application
   end
 
   def route_add
-    unless @route.nil?
-      station_list
-      puts "Номер станции:"
-      number = gets.to_i
-      @route.add_station(@station_list[number])
-    end
+    station_list
+    puts "Номер станции:"
+    number = gets.to_i
+    @route.add_station(@station_list[number])
   end
 
   def route_remove
-    unless @route.nil?
-      route_list
-      puts "Номер станции:"
-      number = gets.to_i
-      @route.remove_station(@route_stations[number])
-    end
+    route_list
+    puts "Номер станции:"
+    number = gets.to_i
+    @route.remove_station(@route_stations[number])
   end
 
   def set_route
-    unless @train.nil?
-      @train.route = @route
-    end
+    @train.route = @route
   end
 
   def attach_railcar
@@ -74,6 +68,14 @@ class Application
 
   def unhook_railcar
     @train.unhook_railcar
+  end
+
+  def train_forward
+    @train.route.forward
+  end
+
+  def train_backward
+    @train.route.backward
   end
 
   protected
