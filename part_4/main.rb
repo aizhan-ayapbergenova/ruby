@@ -5,19 +5,19 @@ class Init < Application
   def start
     loop do
       puts "-----------------------------------------"
-      puts "1. Создать станцию"
-      puts "2. Создать поезд"
-      puts "3. Создать маршрут"
-      puts "4. Добавить станцию в маршрут"
-      puts "5. Удалить станцию из маршрута"
-      puts "6. Назначить маршрут поезду"
-      puts "7. Прицепить вагон"
-      puts "8. Отцепить вагон"
-      puts "9. Переместить поезд на следующую станцию"
-      puts "10. Переместить поезд на предыдущю станцию"
-      puts "11. Посмотреть список станций"
-      puts "12. Посмотреть список поездов на станции"
-      puts "0. Выйти"
+      puts "1. Create a station"
+      puts "2. Create a train"
+      puts "3. Create a route"
+      puts "4. Add station to the route"
+      puts "5. Remove station from the route"
+      puts "6. Set route for the train"
+      puts "7. Attach railcar"
+      puts "8. Unhook railcar"
+      puts "9. Move train to the next station"
+      puts "10. Move train to the previous station"
+      puts "11. See the stations list"
+      puts "12. See the trains list"
+      puts "0. Exit"
       puts "-----------------------------------------"
       choice = gets.to_i
       break if choice == 0
@@ -28,7 +28,7 @@ class Init < Application
       when 2
         create_train
       when 3
-        create_route
+        route_create
       when 4
         route_add
       when 5
@@ -43,6 +43,12 @@ class Init < Application
         train_forward
       when 10
         train_backward
+      when 11
+        station_list
+      when 12
+        train_list
+      else
+        "Enter the number"
       end
     end
   end
