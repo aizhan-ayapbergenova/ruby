@@ -17,7 +17,7 @@ class Application
   end
 
   def create_station
-    puts "Название станции?"
+    puts "Название станции:"
     @stations << Station.new(gets.chomp)
   end
 
@@ -26,33 +26,57 @@ class Application
     puts "2. Грузовой поезд"
     train_type = gets.to_i
 
-    puts "Номер поезда?"
+    puts "Номер поезда:"
     train_number = gets.chomp
     
     @train = PassengerTrain.new(train_number) if train_type == 1
     @train = CargoTrain.new(train_number) if train_type == 2
   end
 
-  def create_route
+  def route_create
     station_list
-    puts "Введите номер начальной станции"
+    puts "Номер начальной станции:"
     first_station = @station_list[gets.to_i]
-    puts "Введите номер конечной станции"
+    puts "Номер конечной станции:"
     last_station  = @station_list[gets.to_i]
 
     @route = Route.new(first_station, last_station)
   end
 
-  def add_station_route
+  def route_add
     unless @route.nil?
       station_list
-      puts "Номер станции?"
+      puts "Номер станции:"
       number = gets.to_i
       @route.add_station(@station_list[number])
-    else
-      "Сначала нужно создать маршрут"
     end
   end
+
+  def route_remove
+    unless @route.nil?
+      route_list
+      puts "Номер станции:"
+      number = gets.to_i
+      @route.remove_station(@route_stations[number])
+    end
+  end
+
+  def set_route
+    unless @train.nil?
+      @train.route = @route
+    end
+  end
+
+  def attach_railcar
+    @train.attach_railcar(PassengerRailcar.new) if @train.type == "passenger"
+    @train.attach_railcar(CargoRailcar.new) if @train.type == "cargo"
+  end
+
+  def unhook_railcar
+    @train.unhook_railcar
+  end
+
+  protected
 
   def station_list
     @station_list = {}
@@ -60,6 +84,14 @@ class Application
 
     puts "Список доступных станций:"
     @station_list.each { |index, station| puts "#{index}. #{station.name}" }
+  end
+
+  def route_list
+    @route_stations = {}
+    @route.stations.each.with_index(1) { |station, index| @route_stations[index] = station }
+
+    puts "Список станций в маршруте:"
+    @route_stations.each { |index, station| puts "#{index}. #{station.name}" }
   end
 
 end
