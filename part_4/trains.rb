@@ -1,12 +1,13 @@
 class Train
 
-  attr_reader :speed, :railcar_list, :type
+  attr_reader   :railcar_list, :type
+  attr_accessor :speed
 
   def initialize(number)
     @number = number
     @railcar_list = []
-    self.type
-    self.speed = 0
+    @type
+    @speed = 0
   end
 
   def increase_speed
@@ -61,7 +62,6 @@ class Train
   def stop?
     speed.zero?
   end
-
 end
 
 class PassengerTrain < Train
