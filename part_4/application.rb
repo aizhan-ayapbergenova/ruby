@@ -6,11 +6,9 @@ require_relative 'railcars'
 
 class Application
 
-  attr_reader   :stations
-  attr_accessor :station, :route, :train
+  attr_reader :stations, :route, :train
 
   def initialize
-    @station
     @route
     @train
     @stations = []
@@ -82,15 +80,8 @@ class Application
     station_list
     puts "Station number:"
     number = gets.to_i
-    puts "Train's type:"
-    puts "1. Passenger Trains"
-    puts "2. Cargo Trains"
-    type = gets.to_i
 
-    train_type = "passenger" if type == 1
-    train_type = "cargo"     if type == 2
-
-    @station_list[number].trains(train_type)
+    @station_list[number].trains
   end
 
   def station_list
