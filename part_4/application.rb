@@ -5,7 +5,6 @@ require_relative 'railcars'
 
 
 class Application
-
   attr_reader :stations, :route, :train
 
   def initialize
@@ -99,5 +98,4 @@ class Application
     puts "Stations in the route:"
     @route_stations.each { |index, station| puts "#{index}. #{station.name}" }
   end
-
 end

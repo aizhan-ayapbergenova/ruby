@@ -52,7 +52,7 @@ class Init < Application
       end
     end
   end
-
+  
 end
 
 app = Init.new

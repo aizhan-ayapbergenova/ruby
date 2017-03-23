@@ -1,5 +1,4 @@
 class Train
-
   attr_reader :speed, :railcar_list, :type
 
   def initialize(number)
@@ -10,11 +9,11 @@ class Train
   end
 
   def increase_speed
-    self.speed += 10
+    @speed += 10
   end
 
   def reset_speed
-    self.speed = 0
+    @speed = 0
   end
 
   def route=(route)
