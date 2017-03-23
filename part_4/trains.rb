@@ -58,13 +58,9 @@ class Train
     @route.stations[@station_index + 1]
   end
 
-  def stop? # Метод не делаем приватным/защищенным чтобы можно было узнать остановлен ли поезд
-    self.speed.zero?
+  def stop?
+    speed.zero?
   end
-
-  protected # Потому что сеттер speed также необходим в подклассах
-
-  attr_writer :speed # Для запрета прямого управления скоростью из клиентского кода
 
 end
 
