@@ -1,9 +1,8 @@
 class Railcar
-
   attr_reader :type
 
   def initialize
-    self.type
+    @type
   end
 end
 
