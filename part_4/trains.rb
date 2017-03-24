@@ -1,4 +1,5 @@
 class Train
+
   attr_reader :speed, :railcar_list, :type
 
   def initialize(number)
