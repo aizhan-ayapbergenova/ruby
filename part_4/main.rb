@@ -1,6 +1,8 @@
 require_relative 'application'
 
-class Init < Application
+class Init
+
+  include Application
 
   def start
     loop do
@@ -47,14 +49,10 @@ class Init < Application
         station_list
       when 12
         train_list
-      else
-        "Enter the number"
       end
     end
   end
-  
+
 end
 
-app = Init.new
-
-puts app.start
+Init.new.start
