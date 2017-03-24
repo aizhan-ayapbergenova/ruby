@@ -1,4 +1,5 @@
 class Railcar
+
   attr_reader :type
 
   def initialize
