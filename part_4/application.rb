@@ -3,8 +3,8 @@ require_relative 'route'
 require_relative 'trains'
 require_relative 'railcars'
 
+module Application
 
-class Application
   attr_reader :stations, :route, :train
 
   def initialize
@@ -79,8 +79,15 @@ class Application
     station_list
     puts "Station number:"
     number = gets.to_i
-
-    @station_list[number].trains
+    puts "Train's type:" 
+    puts "1. Passenger Trains" 
+    puts "2. Cargo Trains"
+    type = gets.to_i 
+ 
+    train_type = "passenger" if type == 1 
+    train_type = "cargo"     if type == 2 
+ 
+    puts @station_list[number].trains(train_type)
   end
 
   def station_list
@@ -91,7 +98,9 @@ class Application
     @station_list.each { |index, station| puts "#{index}. #{station.name}" }
   end
 
-  def route_list
+  private
+
+  def route_list # метод используется только в рамках этого модуля
     @route_stations = {}
     @route.stations.each.with_index(1) { |station, index| @route_stations[index] = station }
 
