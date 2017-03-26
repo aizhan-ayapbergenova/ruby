@@ -1,5 +1,4 @@
 class Station
-
   attr_reader :trains, :name
 
   def initialize(name)
@@ -15,7 +14,7 @@ class Station
     @trains.delete(train)
   end
 
-  def trains(type)
-    @trains.select { |train| train.type == type }
+  def station_trains(type)
+    @trains.select { |train| train.class.to_s == type }
   end
 end

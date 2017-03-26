@@ -1,0 +1,2 @@
+class CargoRailcar < RailCar
+end
