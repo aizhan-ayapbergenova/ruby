@@ -2,7 +2,7 @@ class Station
   @@stations = []
   attr_reader :trains, :name
 
-  def self.stations
+  def self.all
     @@stations
   end
 
