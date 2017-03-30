@@ -1,15 +1,21 @@
 require_relative 'module_manufacturer'
 
 class Train
+  @@trains = {}
 
   include Manufacturer
 
   attr_reader :speed, :railcars
 
+  def self.find(number)
+    @@trains[number]
+  end
+
   def initialize(number)
     @number = number
     @railcars = []
     @speed = 0
+    @@trains[number] = self
   end
 
   def increase_speed
