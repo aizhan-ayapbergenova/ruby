@@ -1,15 +1,16 @@
 class Station
-  @@stations = []
   attr_reader :trains, :name
 
+  @stations = []
+
   def self.all
-    @@stations
+    @stations
   end
 
   def initialize(name)
     @name = name
     @trains = []
-    @@stations << self
+    self.class.all << self
   end
 
   def take_train(train)
