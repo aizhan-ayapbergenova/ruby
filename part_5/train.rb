@@ -1,4 +1,4 @@
-require_relative 'module_manufacturer'
+require_relative 'manufacturer'
 
 class Train
   @@trains = {}
