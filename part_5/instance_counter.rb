@@ -5,13 +5,12 @@ module InstanceCounter
   end
 
   module ClassMethods
-    @@instances = 0
     def instances
-      @@instances
+      @instances
     end
 
     def instances=(instance)
-      @@instances = instance
+      @instances = instance
     end
   end
 
@@ -20,6 +19,7 @@ module InstanceCounter
     protected
 
     def register_instance
+      self.class.instances ||= 0
       self.class.instances += 1
     end
   end
