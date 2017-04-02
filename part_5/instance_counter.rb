@@ -5,13 +5,7 @@ module InstanceCounter
   end
 
   module ClassMethods
-    def instances
-      @instances
-    end
-
-    def instances=(instance)
-      @instances = instance
-    end
+    attr_accessor :instances
   end
 
   module InstanceMethods
