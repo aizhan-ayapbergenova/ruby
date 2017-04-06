@@ -13,7 +13,7 @@ class Station
 
   def initialize(name)
     @name = name
-    name_validate!
+    station_validate!
     @trains = []
     self.class.all << self
   end
