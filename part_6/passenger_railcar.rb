@@ -1,0 +1,2 @@
+class PassengerRailcar < RailCar
+end
