@@ -9,6 +9,7 @@ require_relative 'cargo_railcar'
 require_relative 'instance_counter'
 
 class App
+  @error
   def start
     loop do
       puts "-----------------------------------------"
@@ -73,6 +74,10 @@ class App
   def create_station
     puts "Station name:"
     @stations << Station.new(gets.chomp)
+
+  rescue => @error
+    error_output
+    retry
   end
 
   def create_train
@@ -80,18 +85,17 @@ class App
     puts "2. Cargo Train"
     train_type = gets.to_i
 
-    if train_type <= 0 || train_type > 2
-      raise "Enter the valid number"
-    else
-      puts "Train number:"
-      train_number = gets.chomp
-    end
+    wrong_number if train_type <= 0 || train_type > 2
+      
+    puts "Train number:"
+    train_number = gets.chomp
 
-    PassengerTrain.new(train_number) if train_type == 1
-    CargoTrain.new(train_number)  if train_type == 2
+    @trains << PassengerTrain.new(train_number) if train_type == 1
+    @trains << CargoTrain.new(train_number)  if train_type == 2
 
-  rescue
-    puts "ERROR!!!!"
+  rescue => @error
+    error_output
+    retry
   end
 
   def route_create
@@ -101,13 +105,16 @@ class App
     puts "Last station number:"
     last  = gets.to_i - 1
 
-    raise "Wrong number" if first < 0 || first > @stations.size - 1
-    raise "Wrong number" if last  < 0 || last > @stations.size - 1
+    wrong_number if first < 0 || first > @stations.size - 1
+    wrong_number if last < 0 || last > @stations.size - 1
 
     first_station = @stations[first]
     last_station  = @stations[last]
-
     @routes << Route.new(first_station, last_station)
+
+  rescue => @error
+    error_output
+    retry
   end
 
   def route_add
@@ -117,13 +124,14 @@ class App
     puts "Station:"
     station = gets.to_i - 1
 
-    if @route < 0 || @route > @routes.size - 1
-      puts "Error"
-    elsif station < 0 || station > @stations.size - 1
-      puts "Error"
-    else
-      @routes[@route].add_station(@stations[station])
-    end
+    wrong_number if @route < 0 || @route > @routes.size - 1
+    wrong_number if station < 0 || station > @stations.size - 1
+      
+    @routes[@route].add_station(@stations[station])
+
+  rescue => @error
+    error_output
+    retry
   end
 
   def route_remove
@@ -183,7 +191,7 @@ class App
     train_type = "PassengerTrain" if type == 1 
     train_type = "CargoTrain"     if type == 2 
  
-    puts @stations[number].station_trains(train_type)
+    @stations[number].station_trains(train_type)
   end
 
   def train_list
@@ -205,6 +213,14 @@ class App
     @routes.each.with_index(1) { |route, index| puts "#{index}. #{route}" }
     puts "Route:"
     @route = gets.to_i - 1
+  end
+
+  def error_output
+    puts "#{@error.message}"
+  end
+
+  def wrong_number
+    raise "Enter the valid number"
   end
 end
 
