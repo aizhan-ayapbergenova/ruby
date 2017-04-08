@@ -1,13 +1,13 @@
 require_relative 'manufacturer'
-require_relative 'validator'
 
 class Train
   @@trains = {}
 
   include Manufacturer
-  include Validator
 
   attr_reader :speed, :railcars, :number
+
+  NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i
 
   def self.find(number)
     @@trains[number]
@@ -15,7 +15,7 @@ class Train
 
   def initialize(number)
     @number = number
-    train_validate!
+    validate!
     @railcars = []
     @speed = 0
     @@trains[number] = self
@@ -72,5 +72,16 @@ class Train
 
   def unhook_railcar
     @railcars.pop if stop?
+  end
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
+  end
+
+  def validate!
+    raise "The train number must have letters or numbers and look like this: XXX-XX or XXXXX" if number !~ NUMBER_FORMAT
   end
 end
