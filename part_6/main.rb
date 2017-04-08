@@ -91,7 +91,9 @@ class App
     train_number = gets.chomp
 
     @trains << PassengerTrain.new(train_number) if train_type == 1
-    @trains << CargoTrain.new(train_number)  if train_type == 2
+    @trains << CargoTrain.new(train_number)  if train_type == 2 
+
+    puts "The train №#{train_number} successfully created"
 
   rescue => @error
     error_output
