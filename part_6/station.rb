@@ -1,9 +1,7 @@
-require_relative 'validator'
-
 class Station
   attr_reader :trains, :name
 
-  include Validator
+  ATTR_NAME = /^([a-z\d]\s?-?)*$/i
 
   @stations = []
 
@@ -13,7 +11,7 @@ class Station
 
   def initialize(name)
     @name = name
-    station_validate!
+    validate!
     @trains = []
     self.class.all << self
   end
@@ -28,5 +26,17 @@ class Station
 
   def station_trains(type)
     @trains.select { |train| train.class.to_s == type }
+  end
+
+  def valid?
+    validate!
+    true
+  rescue
+    false
+  end
+
+  def validate!
+    raise 'Enter the name of the station' if name.length.zero?
+    raise 'The name is incorrect' if name !~ ATTR_NAME
   end
 end
