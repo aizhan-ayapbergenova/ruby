@@ -9,7 +9,11 @@ class PassengerRailcar < RailCar
   end
 
   def take_seat
-    @free_seats -= 1
-    @taken_seats += 1
+    if @free_seats > 0
+      @free_seats -= 1
+      @taken_seats += 1
+    else
+      raise "No vacant seats!"
+    end
   end
 end
