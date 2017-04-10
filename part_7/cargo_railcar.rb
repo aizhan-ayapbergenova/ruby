@@ -9,11 +9,12 @@ class CargoRailcar < RailCar
   end
 
   def fill(volume)
-    if volume > @free_volume
-      raise "Error"
-    else
+    raise "Available volume is - #{@free_volume}" if volume > @free_volume
+    if @free_volume > 0
       @free_volume -= volume
       @taken_volume += volume
+    else
+      raise "Fully filled"
     end
   end
 end
