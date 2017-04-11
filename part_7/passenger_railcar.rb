@@ -6,6 +6,7 @@ class PassengerRailcar < RailCar
   def initialize(seats)
     @free_seats = seats
     @taken_seats = 0
+    raise "Amount of seats can't be 0 or negative" if seats == 0 || seats < 0
   end
 
   def take_seat
