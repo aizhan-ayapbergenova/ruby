@@ -26,6 +26,7 @@ class App
       puts "11. Move train to the previous station"
       puts "12. See the stations list"
       puts "13. See the trains list"
+      puts "14. See the trains info"
       puts "0. Exit"
       puts "-----------------------------------------"
       choice = gets.to_i
@@ -58,8 +59,8 @@ class App
         station_list
       when 13
         show_trains
-      when 100
-        puts @railcars
+      when 14
+        trains_info
       else
         puts "Enter the valid number"
       end
@@ -209,7 +210,7 @@ class App
   def train_forward
     train_list
 
-    @trains[@train].forward
+    @trains[@train].railcars.each
   end
 
   def train_backward
@@ -223,8 +224,22 @@ class App
     puts "Station number:"
     number = gets.to_i - 1
 
-    @stations[number].pass_train do |train|
-      puts "Train №#{train.number}. Type: #{train.class.to_s}. Amount of railcars: #{train.railcars.size}"
+    @stations[number].pass_train do |train; index|
+      index = 0
+      puts "#{index += 1}. Train №#{train.number}. Type: #{train.class.to_s}. Amount of railcars: #{train.railcars.size}"
+    end
+  end
+
+  def trains_info
+    train_list
+
+    @trains[@train].pass_railcar do |railcar|
+      railcar_info = "Railcar №#{railcar.number}. Type: #{railcar.class.to_s}. "
+      if railcar.class.to_s == "PassengerRailcar"
+        puts railcar_info + "Available seats: #{railcar.free_seats}. Reserved seats: #{railcar.reserved_seats}"
+      else
+        puts railcar_info + "Available volume: #{railcar.free_volume}. Taken volume: #{railcar.taken_volume}"
+      end
     end
   end
 
