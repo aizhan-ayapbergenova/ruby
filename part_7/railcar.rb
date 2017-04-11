@@ -5,7 +5,10 @@ class RailCar
   include Manufacturer
   include InstanceCounter
 
-  def initialize
+  attr_reader :number
+
+  def initialize(*args)
     register_instance
+    @number = self.class.instances
   end
 end
