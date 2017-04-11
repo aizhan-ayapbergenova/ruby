@@ -31,6 +31,7 @@ class Train
 
   def route=(route)
     @route = route
+    @route.stations[0].take_train(self)
     @station_index = 0
   end
 
