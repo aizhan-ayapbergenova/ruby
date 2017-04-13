@@ -9,6 +9,6 @@ class RailCar
 
   def initialize(*args)
     register_instance
-    @number = self.class.instances
+    @number = self.class.instances # номер вагона будет автоматически назначаться по номеру интсанса класса
   end
 end
