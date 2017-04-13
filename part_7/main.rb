@@ -26,7 +26,9 @@ class App
       puts "11. Move train to the previous station"
       puts "12. See the stations list"
       puts "13. See the trains list"
-      puts "14. See the trains info"
+      puts "14. See the railcars info"
+      puts "15. Reserve a seat"
+      puts "16. Fill railcar"
       puts "0. Exit"
       puts "-----------------------------------------"
       choice = gets.to_i
@@ -60,7 +62,13 @@ class App
       when 13
         show_trains
       when 14
-        trains_info
+        show_railcars
+      when 15
+        reserve_seat
+      when 16
+        fill_railcar
+      when 100
+        puts trains
       else
         puts "Enter the valid number"
       end
@@ -108,7 +116,8 @@ class App
   end
 
   def route_create
-    station_list
+    puts "Available stations:"
+    @stations.each.with_index(1) { |station, index| puts "#{index}. #{station.name}" }
     puts "First station number:"
     first = gets.to_i - 1
     puts "Last station number:"
@@ -130,11 +139,6 @@ class App
     route_list
 
     station_list
-    puts "Station:"
-    station = gets.to_i - 1
-
-    wrong_number if @route < 0 || @route > @routes.size - 1
-    wrong_number if station < 0 || station > @stations.size - 1
       
     @routes[@route].add_station(@stations[station])
 
@@ -175,7 +179,7 @@ class App
       @railcars << PassengerRailcar.new(seats)
     elsif type == 2
       puts "Railcar volume:"
-      volume = gets.to_i
+      volume = gets.to_f
       @railcars << CargoRailcar.new(volume)
     else
       wrong_number
@@ -188,7 +192,8 @@ class App
 
   def attach_railcar
     puts "Available railcars:"
-    @railcars.each.with_index(1) { |railcar, index| puts "#{index}. #{railcar}" }
+    @railcars.each_with_index &railcar_info
+
     puts "Railcar:"
     railcar = @railcars[gets.to_i - 1]
 
@@ -207,10 +212,24 @@ class App
     @trains[@train].unhook_railcar
   end
 
+  def reserve_seat
+    railcar_action("PassengerTrain") # отбор пассажирских поездов для резервирования места
+
+    @trains[@train].railcars[@railcar].take_seat
+  end
+
+  def fill_railcar
+    railcar_action("CargoTrain") # отбор грузовых поездов для заполнения
+
+    puts "Volume:"
+    volume = gets.to_f
+    @trains[@train].railcars[@railcar].fill(volume)
+  end
+
   def train_forward
     train_list
 
-    @trains[@train].railcars.each
+    @trains[@train].forward
   end
 
   def train_backward
@@ -221,26 +240,16 @@ class App
 
   def show_trains
     station_list
-    puts "Station number:"
-    number = gets.to_i - 1
 
-    @stations[number].pass_train do |train; index|
-      index = 0
-      puts "#{index += 1}. Train №#{train.number}. Type: #{train.class.to_s}. Amount of railcars: #{train.railcars.size}"
-    end
+    @stations[@number].pass_train(&train_info)
   end
 
-  def trains_info
-    train_list
+  def show_railcars
+    show_trains
+    puts "Train:"
+    @train = gets.to_i - 1
 
-    @trains[@train].pass_railcar do |railcar|
-      railcar_info = "Railcar №#{railcar.number}. Type: #{railcar.class.to_s}. "
-      if railcar.class.to_s == "PassengerRailcar"
-        puts railcar_info + "Available seats: #{railcar.free_seats}. Reserved seats: #{railcar.reserved_seats}"
-      else
-        puts railcar_info + "Available volume: #{railcar.free_volume}. Taken volume: #{railcar.taken_volume}"
-      end
-    end
+    @trains[@train].pass_railcar(&railcar_info)
   end
 
   def train_list
@@ -255,6 +264,10 @@ class App
   def station_list
     puts "Available stations:"
     @stations.each.with_index(1) { |station, index| puts "#{index}. #{station.name}" }
+    puts "Station number:"
+    @number = gets.to_i - 1
+
+    wrong_number if @number < 0 || @number > @stations.size - 1
   end
 
   def route_list
@@ -262,6 +275,45 @@ class App
     @routes.each.with_index(1) { |route, index| puts "#{index}. #{route}" }
     puts "Route:"
     @route = gets.to_i - 1
+
+    wrong_number if @route < 0 || @route > @routes.size - 1
+  end
+
+  def railcar_info
+    proc do |railcar, index|
+      index += 1
+      info = "#{index}. Railcar №#{railcar.number}. Type: #{railcar.class.to_s}."
+      if railcar.class.to_s == "PassengerRailcar"
+        puts info + "Available seats: #{railcar.free_seats}. Reserved seats: #{railcar.reserved_seats}"
+      else
+        puts info + "Available volume: #{railcar.free_volume}. Taken volume: #{railcar.filled_volume}"
+      end
+    end
+  end
+
+  def train_info
+    proc do |train, index|
+      index += 1
+      puts "#{index}. Train №#{train.number}. Type: #{train.class.to_s}. Amount of railcars: #{train.railcars.size}"
+    end
+  end
+
+  def railcar_action(type) # метод для отбора пассажирских и грузовых поездов
+    station_list
+
+    type_train = @stations[@number].station_trains(type)
+
+    type_train.each_with_index &train_info
+    puts "Train:"
+    @train = gets.to_i - 1
+
+    wrong_number if @train < 0 || @train > type_train.size
+
+    @trains[@train].pass_railcar &railcar_info
+    puts "Railcar:"
+    @railcar = gets.to_i - 1
+
+    wrong_number if @railcar < 0 || @railcar > @trains.size
   end
 
   def error_output
