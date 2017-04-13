@@ -80,8 +80,8 @@ class Train
   end
 
   def pass_railcar(&block)
-    @railcars.each do |railcar|
-      block.call(railcar)
+    @railcars.each_with_index do |railcar, index|
+      block.call(railcar, index)
     end
   end
 

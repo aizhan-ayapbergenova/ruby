@@ -29,8 +29,8 @@ class Station
   end
 
   def pass_train(&block)
-    @trains.each do |train|
-      block.call(train)
+    @trains.each_with_index do |train, index|
+      block.call(train, index)
     end
   end
 
