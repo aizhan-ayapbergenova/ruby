@@ -272,7 +272,7 @@ class App
         " Reserved seats: #{railcar.reserved_seats}"
       else
         puts info + "Available volume: #{railcar.free_volume}."\
-        " Taken volume: #{railcar.filled_volume}"
+        " Filled volume: #{railcar.filled_volume}"
       end
     end
   end
