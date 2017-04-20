@@ -1,14 +1,13 @@
 class Station
-
-  ATTR_NAME = /^([a-z\d]\s?-?)*$/i
-
-  attr_reader :trains, :name
-
   @stations = []
 
   def self.all
     @stations
   end
+
+  ATTR_NAME = /^([a-z\d]\s?-?)*$/i
+
+  attr_reader :trains, :name
 
   def initialize(name)
     @name = name

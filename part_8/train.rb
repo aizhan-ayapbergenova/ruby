@@ -2,11 +2,10 @@ require_relative 'manufacturer'
 
 class Train
   include Manufacturer
-
   @trains = {}
-
+  
   class << self
-    attr_accessor :trains
+    attr_reader :trains
 
     def find(number)
       @trains[number]
