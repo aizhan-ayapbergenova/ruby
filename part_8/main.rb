@@ -9,7 +9,6 @@ require_relative 'cargo_railcar'
 require_relative 'instance_counter'
 
 class App
-  @error
   def start
     loop do
       options
@@ -57,7 +56,7 @@ class App
 
   private
 
-  attr_reader :stations, :routes, :trains
+  attr_reader :stations, :routes, :trains, :railcars
 
   def initialize
     @stations = []
@@ -97,25 +96,26 @@ class App
   end
 
   def create_train
-    puts '1. Passenger Train'
-    puts '2. Cargo Train'
+    puts '1. Passenger Train', '2. Cargo Train'
     train_type = gets.to_i
     wrong_number if train_type <= 0 || train_type > 2
 
     puts 'Train number:'
-    train_number = gets.chomp
-
-    @trains << PassengerTrain.new(train_number) if train_type == 1
-    @trains << CargoTrain.new(train_number) if train_type == 2
-    puts "The train №#{train_number} successfully created"
+    @train_number = gets.chomp
+    train_to_list(train_type)
   rescue => @error
     error_output
     retry
   end
 
+  def train_to_list(number)
+    @trains << PassengerTrain.new(@train_number) if number == 1
+    @trains << CargoTrain.new(@train_number) if number == 2
+    puts "The train №#{@train_number} successfully created"
+  end
+
   def route_create
-    puts 'Available stations:'
-    @stations.each.with_index(1) { |station, index| puts "#{index}. #{station.name}" }
+    all_stations
     puts 'First station number:'
     first = gets.to_i - 1
     puts 'Last station number:'
@@ -127,29 +127,29 @@ class App
     first_station = @stations[first]
     last_station = @stations[last]
     @routes << Route.new(first_station, last_station)
-  rescue => @error
-    error_output
-    retry
   end
 
   def route_add
     route_list
     station_list
     @routes[@route].add_station(@stations[station])
-  rescue => @error
-    error_output
-    retry
   end
 
   def route_remove
     route_list
     puts 'Stations in the route:'
-    @routes[@route].stations.each.with_index(1) { |station, index| puts "#{index}. #{station.name}" }
+    stations_in_route
     puts 'Station number:'
     number = gets.to_i - 1
 
-    station_in_route = @routes[@route].stations[number]
-    @routes[@route].remove_station(station_in_route)
+    station = @routes[@route].stations[number]
+    @routes[@route].remove_station(station)
+  end
+
+  def stations_in_route
+    @routes[@route].stations.each.with_index(1) do |station, index|
+      puts "#{index}. #{station.name}"
+    end
   end
 
   def set_route
@@ -160,8 +160,7 @@ class App
 
   def create_railcar
     puts 'Railcar type:'
-    puts '1. Passenger Railcar'
-    puts '2. Cargo Railcar'
+    puts '1. Passenger Railcar', '2. Cargo Railcar'
     type = gets.to_i
 
     if type == 1
@@ -175,9 +174,6 @@ class App
     else
       wrong_number
     end
-  rescue => @error
-    error_output
-    retry
   end
 
   def attach_railcar
@@ -188,9 +184,6 @@ class App
 
     train_list
     @trains[@train].attach_railcar(railcar)
-  rescue => @error
-    error_output
-    retry
   end
 
   def unhook_railcar
@@ -272,7 +265,7 @@ class App
         " Reserved seats: #{railcar.reserved_seats}"
       else
         puts info + "Available volume: #{railcar.free_volume}."\
-        " Taken volume: #{railcar.filled_volume}"
+        " Filled volume: #{railcar.filled_volume}"
       end
     end
   end
@@ -299,12 +292,12 @@ class App
     wrong_number if @railcar < 0 || @railcar > @trains.size
   end
 
-  def error_output
-    puts "ERROR: #{@error.message}"
-  end
-
   def wrong_number
     raise 'Enter the valid number'
+  end
+
+  def error_output
+    puts "ERROR: #{@error.message}"
   end
 end
 
