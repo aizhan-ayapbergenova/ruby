@@ -16,7 +16,7 @@ module Accessors
     var_name = "@#{attr_name}".to_sym
     define_method(attr_name) { instance_variable_get(var_name) }
     define_method("#{attr_name}=".to_sym) do |value|
-      raise if value.class.to_s != attr_class.to_s
+      raise if value.class != attr_class
       instance_variable_set(var_name, value)
     end
   end
