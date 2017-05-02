@@ -7,7 +7,7 @@ module Validation
   module ClassMethods
     def validate(attr_name, validation_type, validation_format="")
       @options ||= {}
-      @options[attr_name] = { validation_type: validation_format } 
+      @options[attr_name] = { "#{validation_type}": validation_format } 
     end
   end
 
@@ -15,7 +15,8 @@ module Validation
     def validate!
       self.class.instance_variable_get(:@options).each do |attr_name, attr_validation| 
         attr_name = instance_variable_get("@#{attr_name}")
-        self.send(:presence, attr_name)
+        validation_type = attr_validation.keys[0]
+        validation_standart = attr_validation.values[0]
       end 
     end 
 
