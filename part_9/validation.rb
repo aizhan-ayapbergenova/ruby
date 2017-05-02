@@ -6,28 +6,23 @@ module Validation
 
   module ClassMethods
     def validate(attr_name, validation_type, validation_format="")
-      @options = {}
-      @options[attr_name] = { validation_type: validation_format }
-    end
-
-    def options
-      @options
+      @options ||= {}
+      @options[attr_name] = { validation_type: validation_format } 
     end
   end
 
-  module InstanceMethods
+  module InstanceMethods 
     def validate!
-      self.class.instance_variable_get(:@options).each do |key, value|
-        key = instance_variable_get("@#{key}")
-        self.send(:presence, key)
-      end
-    end
+      self.class.instance_variable_get(:@options).each do |attr_name, attr_validation| 
+        attr_name = instance_variable_get("@#{attr_name}")
+        self.send(:presence, attr_name)
+      end 
+    end 
 
     def presence(attribute)
-      raise "ERROR" if attribute.nil? || attribute.empty?
+      raise if attribute.nil? || attribute.empty?
     end
   end
-
 end
 
 class Test
@@ -35,8 +30,9 @@ class Test
 
   attr_accessor :name, :number, :station
   validate :name, :presence
+  validate :number, :presence
 
-  def initialize(name)
+  def initialize(name, number)
     @name = name
     @number = number
     validate!
