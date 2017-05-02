@@ -5,9 +5,9 @@ module Validation
   end
 
   module ClassMethods
-    def validate(attr_name, validation_type, validation_format="")
+    def validate(attr_name, validation_type, validation_format = nil)
       @options ||= {}
-      @options[attr_name] = { "#{validation_type}": validation_format } 
+      @options[attr_name] = { "#{validation_type}": validation_format }
     end
   end
 
@@ -17,25 +17,27 @@ module Validation
         attr_name = instance_variable_get("@#{attr_name}")
         validation_type = attr_validation.keys[0]
         validation_standart = attr_validation.values[0]
-      end 
+        self.send(validation_type, attr_name, validation_standart)
+      end
     end 
 
-    def presence(attribute)
-      raise if attribute.nil? || attribute.empty?
+    def presence(attribute, *args)
+      raise "Wrong name" if attribute.nil? || attribute.empty?
     end
-  end
-end
 
-class Test
-  include Validation
+    def format(attribute, standart)
+      raise "Wrong format" if attribute.to_s !~ standart
+    end
 
-  attr_accessor :name, :number, :station
-  validate :name, :presence
-  validate :number, :presence
+    def type(attribute, attribute_class)
+      raise "Wrong type" if attribute.class != attribute_class
+    end
 
-  def initialize(name, number)
-    @name = name
-    @number = number
-    validate!
+    def valid?
+      validate!
+      true
+    rescue
+      false
+    end
   end
 end
