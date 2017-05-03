@@ -12,11 +12,20 @@ module Validation
   end
 
   module InstanceMethods
+    def valid?
+      validate!
+      true
+    rescue
+      false
+    end
+
+    private
+
     def validate!
-      self.class.instance_variable_get(:@validations).each do |validation_clause|
-        attr_name = instance_variable_get("@#{validation_clause[0]}")
-        validation_type = validation_clause[1]
-        validation_standart = validation_clause[2]
+      self.class.instance_variable_get(:@validations).each do |attr_value|
+        attr_name = instance_variable_get("@#{attr_value[0]}")
+        validation_type = attr_value[1]
+        validation_standart = attr_value[2]
         send(validation_type, attr_name, validation_standart)
       end
     end
@@ -31,13 +40,6 @@ module Validation
 
     def type(attribute, attribute_class)
       raise 'Wrong type' if attribute.class != attribute_class
-    end
-
-    def valid?
-      validate!
-      true
-    rescue
-      false
     end
   end
 end
