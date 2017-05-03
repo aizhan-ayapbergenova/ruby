@@ -1,7 +1,10 @@
 require_relative 'manufacturer'
+require_relative 'validation'
 
 class Train
   include Manufacturer
+  include Validation
+
   @trains = {}
   
   class << self
@@ -16,11 +19,13 @@ class Train
 
   attr_reader :speed, :railcars, :number
 
+  validate :number, :format, NUMBER_FORMAT
+
   def initialize(number)
     @number = number
-    validate!
     @railcars = []
     @speed = 0
+    validate!
     self.class.trains[number] = self
   end
 
@@ -80,20 +85,6 @@ class Train
   def pass_railcar(&block)
     @railcars.each_with_index do |railcar, index|
       block.call(railcar, index)
-    end
-  end
-
-  def valid?
-    validate!
-    true
-  rescue
-    false
-  end
-
-  def validate!
-    unless number =~ NUMBER_FORMAT
-      raise "The train number must have letters or numbers"\
-      " and look like this: XXX-XX or XXXXX"
     end
   end
 end

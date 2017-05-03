@@ -14,10 +14,15 @@ class Station
   ATTR_NAME = /^([a-z\d]\s?-?)*$/i
 
   attr_reader :trains, :name
+  
+  validate :name, :presence
+  validate :name, :format, ATTR_NAME
+  validate :name, :type, String
 
   def initialize(name)
     @name = name
     @trains = []
+    validate!
     self.class.all << self
   end
 
@@ -38,16 +43,4 @@ class Station
       block.call(train, index)
     end
   end
-
-  # def valid?
-  #   validate!
-  #   true
-  # rescue
-  #   false
-  # end
-
-  # def validate!
-  #   raise 'Enter the name of the station' if name.length.zero?
-  #   raise 'The name is incorrect' if name !~ ATTR_NAME
-  # end
 end
