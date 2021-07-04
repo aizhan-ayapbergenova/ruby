@@ -1,11 +1,52 @@
+class Station
+
+  attr_reader :trains
+
+  def initialize(name)
+    @name = name
+    @trains = []
+  end
+
+  def take_train(train)
+    @trains.push(train) 
+  end
+
+  def send_train(train)
+    @trains.delete(train)
+  end
+
+  def trains(type)
+    @trains.select { |train| train.type == type }
+  end
+end
+
+class Route
+
+  attr_reader :stations
+
+  def initialize(first_station, last_station)
+    @stations = [first_station, last_station]
+  end
+
+  def add_station(station)
+    @stations.insert(-2, station)
+  end
+
+  def remove_station(station)
+    if station != first_station && station != last_station
+      @stations.delete(station)
+    end
+  end
+end
+
 class Train
 
-  attr_reader :speed, :type, :carriage_quantity
+  attr_reader :speed, :type, :wagon_amount
 
   def initialize(number, type, carriage_quantity)
     @number = number
     @type   = type
-    @carriage_quantity = carriage_quantity
+    @wagon_amount = wagon_amount
     @speed = 0
   end
 
@@ -23,11 +64,11 @@ class Train
   end
 
   def attach_vagon
-    @carriage_quantity += 1 if @speed == 0
+    @wagon_amount += 1 if @speed == 0
   end
 
   def unhook_vagon
-    @carriage_quantity -= 1 if @speed == 0 && @carriage_quantity > 0
+    @wagon_amount -= 1 if @speed == 0 && @add_wagons > 0
   end
 
   def forward
